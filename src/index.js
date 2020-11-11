@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+//only use 1 time
 ReactDOM.render(
   <React.StrictMode>
     <App />
