@@ -1,23 +1,36 @@
+import Header from 'components/Header';
+import { useEffect } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import productApi from './api/productApi';
 import './App.css';
+import NotFound from './components/NotFound';
 import AlbumFeature from './features/Album';
+import CounterFeatures from './features/Counter';
 import TodoFeature from './features/Todo';
 
+
 function App() {
-  const age = 18;
-  const name = 'Cuc'
-  const isMale = true;
-  const student = {
-    name: 'Lio'
-  }
-  const colorList = ['red', 'green', 'blue']
+  useEffect(()=>{
+    const fetchProducts = async () => {
+      const params = {
+        _limit: 10,
+      };
+      const productList = await productApi.getAll(params);
+      console.log(productList);
+    } 
+    fetchProducts();
+  },[]);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src="https://scontent.fsgn5-2.fna.fbcdn.net/v/t1.0-9/123704076_2774667432813726_7469186402713983878_n.jpg?_nc_cat=107&ccb=2&_nc_sid=8bfeb9&_nc_ohc=BJztLEcc4owAX-F8DI2&_nc_ht=scontent.fsgn5-2.fna&oh=38ed676272a20e81403d77a11b279a10&oe=5FD14919" className="App-logo" alt="logo" />
-        <TodoFeature />
-        <AlbumFeature />
-      </header>
+      <Header/>
+      <Switch>
+        <Redirect from="/post-list/:postId" to="/posts/:postId" exact />
+        <Route path="/" component={CounterFeatures} exact />
+        <Route path="/todos" component={TodoFeature} />
+        <Route path="/albums" component={AlbumFeature} />
+        <Route component={NotFound} />
+      </Switch>
     </div>
   );
 }
